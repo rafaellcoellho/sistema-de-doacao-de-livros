@@ -1,76 +1,32 @@
-from http import HTTPStatus
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
-from fastapi import FastAPI, HTTPException
-
-from sistema_de_doacao_de_livros.schemas import (
-    AtualizacaoDeUsuario,
-    CriacaoDeUsuario,
-    ListagemDeUsuario,
-    RespostaDoSistema,
-    UsuarioAtualizado,
-    UsuarioCriado,
-    UsuarioDB,
-    UsuarioEspecifico,
+from sistema_de_doacao_de_livros.api.inicio import rotas_api_inicio
+from sistema_de_doacao_de_livros.api.usuarios import rotas_api_usuarios
+from sistema_de_doacao_de_livros.web.rotas.autenticacao import (
+    rotas_autenticacao,
+)
+from sistema_de_doacao_de_livros.web.rotas.avaliacao import rotas_solicitacoes
+from sistema_de_doacao_de_livros.web.rotas.doacao import rotas_doacao
+from sistema_de_doacao_de_livros.web.rotas.doador import rotas_doador
+from sistema_de_doacao_de_livros.web.rotas.inicio import rotas_inicio
+from sistema_de_doacao_de_livros.web.rotas.instituicoes import (
+    rotas_instituicoes,
 )
 
 app = FastAPI()
-banco_de_dados = []
 
-
-@app.get("/")
-def pagina_inicial(response_model=RespostaDoSistema):
-    return {"message": "Olá Mundo!"}
-
-
-@app.post(
-    "/usuarios/", status_code=HTTPStatus.CREATED, response_model=UsuarioCriado
+app.mount(
+    "/static",
+    StaticFiles(directory="sistema_de_doacao_de_livros/web/static"),
+    name="static",
 )
-def criar_usuario(usuario: CriacaoDeUsuario):
-    usuario_com_id = UsuarioDB(
-        **usuario.model_dump(), id=len(banco_de_dados) + 1
-    )
 
-    banco_de_dados.append(usuario_com_id)
-
-    return usuario_com_id
-
-
-@app.get("/usuarios/", response_model=ListagemDeUsuario)
-def buscar_usuarios():
-    return {"usuarios": banco_de_dados}
-
-
-@app.put("/usuarios/{id_do_usuario}", response_model=UsuarioAtualizado)
-def atualizar_usuario(id_do_usuario: int, usuario: AtualizacaoDeUsuario):
-    if id_do_usuario > len(banco_de_dados) or id_do_usuario < 1:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND, detail="Usuário não encontrado"
-        )
-
-    usuario_com_id = UsuarioDB(**usuario.model_dump(), id=id_do_usuario)
-    banco_de_dados[id_do_usuario - 1] = usuario_com_id
-
-    return usuario_com_id
-
-
-@app.delete("/usuarios/{id_do_usuario}", response_model=RespostaDoSistema)
-def deletar_usuario(id_do_usuario: int):
-    if id_do_usuario > len(banco_de_dados) or id_do_usuario < 1:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND, detail="Usuário não encontrado"
-        )
-
-    del banco_de_dados[id_do_usuario - 1]
-
-    return {"mensagem": "Usuário deletado"}
-
-
-@app.get("/usuarios/{id_do_usuario}", response_model=UsuarioEspecifico)
-def buscar_usuario_especifico(id_do_usuario: int):
-    if id_do_usuario > len(banco_de_dados) or id_do_usuario < 1:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND, detail="Usuário não encontrado"
-        )
-
-    usuario = banco_de_dados[id_do_usuario - 1]
-    return usuario
+app.include_router(rotas_inicio)
+app.include_router(rotas_instituicoes)
+app.include_router(rotas_autenticacao)
+app.include_router(rotas_doacao)
+app.include_router(rotas_doador)
+app.include_router(rotas_solicitacoes)
+app.include_router(rotas_api_inicio, prefix="/api")
+app.include_router(rotas_api_usuarios, prefix="/api")

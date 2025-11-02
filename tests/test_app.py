@@ -12,7 +12,7 @@ def cliente():
 
 
 def test_pagina_inicial_deve_retornar_ok_e_ola_mundo(cliente):
-    resposta = cliente.get("/")
+    resposta = cliente.get("/api/")
 
     assert resposta.status_code == HTTPStatus.OK
     assert resposta.json() == {"message": "Olá Mundo!"}
@@ -20,7 +20,7 @@ def test_pagina_inicial_deve_retornar_ok_e_ola_mundo(cliente):
 
 def teste_criar_usuario(cliente):
     resposta = cliente.post(
-        "/usuarios/",
+        "/api/usuarios/",
         json={
             "nome": "alice",
             "email": "alice@example.com",
@@ -36,7 +36,7 @@ def teste_criar_usuario(cliente):
 
 
 def teste_buscar_usuarios(cliente):
-    resposta = cliente.get("/usuarios/")
+    resposta = cliente.get("/api/usuarios/")
     assert resposta.status_code == HTTPStatus.OK
     assert resposta.json() == {
         "usuarios": [
@@ -51,7 +51,7 @@ def teste_buscar_usuarios(cliente):
 
 def teste_atualizar_usuario(cliente):
     resposta = cliente.put(
-        "/usuarios/1",
+        "/api/usuarios/1",
         json={
             "nome": "bob",
             "email": "bob@example.com",
@@ -68,7 +68,7 @@ def teste_atualizar_usuario(cliente):
 
 def teste_erro_usuario_nao_encontrado_ao_atualizar_usuario(cliente):
     resposta = cliente.put(
-        "/usuarios/5",
+        "/api/usuarios/5",
         json={
             "nome": "bob",
             "email": "bob@example.com",
@@ -80,7 +80,7 @@ def teste_erro_usuario_nao_encontrado_ao_atualizar_usuario(cliente):
 
 
 def teste_buscar_usuario_especifico(cliente):
-    resposta = cliente.get("/usuarios/1")
+    resposta = cliente.get("/api/usuarios/1")
     assert resposta.status_code == HTTPStatus.OK
     assert resposta.json() == {
         "nome": "bob",
@@ -90,13 +90,13 @@ def teste_buscar_usuario_especifico(cliente):
 
 
 def teste_erro_usuario_nao_encontrado_ao_buscar_usuario_especifico(cliente):
-    resposta = cliente.get("/usuarios/5")
+    resposta = cliente.get("/api/usuarios/5")
     assert resposta.status_code == HTTPStatus.NOT_FOUND
     assert resposta.json() == {"detail": "Usuário não encontrado"}
 
 
 def teste_deletar_usuario(cliente):
-    resposta = cliente.delete("/usuarios/1")
+    resposta = cliente.delete("/api/usuarios/1")
 
     assert resposta.status_code == HTTPStatus.OK
     assert resposta.json() == {"mensagem": "Usuário deletado"}
@@ -104,7 +104,7 @@ def teste_deletar_usuario(cliente):
 
 def teste_erro_usuario_nao_encontrado_ao_deletar_usuario(cliente):
     resposta = cliente.delete(
-        "/usuarios/5",
+        "/api/usuarios/5",
     )
     assert resposta.status_code == HTTPStatus.NOT_FOUND
     assert resposta.json() == {"detail": "Usuário não encontrado"}
