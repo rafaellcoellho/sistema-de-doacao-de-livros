@@ -1,32 +1,63 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block titulo %}Sistema de doação de livros{% endblock %}
+
+{% block conteudo %}
+<header>
+	<h1>Sistema de doação de livros</h1>
+
+	<nav>
+		<ul>
+			<li><a href="#como-funciona">Como funciona?</a></li>
+			<li><a href="#ir-para-cadastrar-instituicao">Sou uma instituição</a></li>
+		</ul>
+	</nav>
+</header>
+
 <main>
-		<section id="destaque" aria-labelledby="destaque-titulo">
-			<h2 id="destaque-titulo">Nome do Projeto</h2>
-			<p>Plataforma para doação de livros a instituições sociais.</p>
-		</section>
-
-		<div aria-hidden="false" class="acoes-rapidas">
-			<nav aria-label="Ações rápidas">
-				<a href="/entrar">Entrar</a>
-			</nav>
-		</div>
-
-	<section id="lista-instituicoes" aria-labelledby="instituicoes-titulo">
-		<h3 id="instituicoes-titulo">Para doadores</h3>
-		<p>Encontre instituições que recebem doações de livros e escolha onde doar.</p>
+	<section id="inicial">
+		<h2>Faça uma doação!</h2>
 		<p>
-			<a href="/instituicoes">Ir para a lista de instituições</a>
+			Entre em contato com instituições e projetos sociais que estejam interessadas em dar
+			um novo propósito aos seus livros.
 		</p>
+		<button><a href="">Quero doar</a></button>
+		<img
+			src="{{ url_for('static', path='imagens/pagina_inicial_linhas_pessoas_livros.png') }}"
+			alt="desenho de linhas de pessoas segurando livro"
+		>
 	</section>
 
-	<section id="cadastro-instituicoes" aria-labelledby="cadastro-titulo">
-		<h3 id="cadastro-titulo">Para instituições</h3>
-		<p>Cadastre sua instituição para receber doações de livros.</p>
-		<p>
-			<a href="/instituicoes/cadastrar">Quero cadastrar minha instituição</a>
-		</p>
+	<section id="como-funciona">
+		<h2>Como funciona?</h2>
+		<p>O processo é rápido, simples e sem burocracias.</p>
+
+		<article>
+			<h3>1. Encontre uma instituição</h3>
+			<p>
+				Utilize nossa plataforma para localizar instituições e projetos 
+				sociais que aceitam doações de livros.
+			</p>
+		</article>
+
+		<article>
+			<h3>2. Preencha formulário de doação</h3>
+			<p>Preencha o formulário de doação com as informações necessárias e clique em enviar.</p>
+		</article>
+
+		<article>
+			<h3>3. Aguarde o contato</h3>
+			<p>
+				Uma vez que a instituição ou projeto social receber sua solicitação, eles 
+				entrarão em contato para combinar os detalhes da doação.
+			</p>
+		</article>
+	</section>
+
+	<section id="ir-para-cadastrar-instituicao">
+		<h2>Faço parte de uma instituição/projeto social</h2>
+		<p>Faça o cadastro no nosso site para receber solicitações de doação de livros.</p>
+		<button><a href="">Ir para cadastro</a></button>
 	</section>
 </main>
 {% endblock %}
