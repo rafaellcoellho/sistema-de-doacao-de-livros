@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>{% block titulo %}{% endblock %}</title>
-</head>
-<body class="bg-gray-50 text-gray-900 antialiased">
-    {% block conteudo %}{% endblock %}
-    <footer class="mt-16 border-t border-gray-200 py-8">
-        <p class="text-center text-sm text-gray-600">&copy; 2025 Sistema de doação de livros. Todos os direitos reservados.</p>
-    </footer>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <title>{% block titulo %}{% endblock %}</title>
+    </head>
+    <body class="bg-gray-50 text-gray-900 antialiased">
+        {% block conteudo %}{% endblock %}
+        <footer class="mt-16 border-t border-gray-200 py-8">
+            <p class="text-center text-sm text-gray-600">&copy; 2025 Sistema de doação de livros. Todos os direitos reservados.</p>
+        </footer>
+    </body>
 </html>
